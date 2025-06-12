@@ -4,17 +4,27 @@ const path = require('path');
 const app = express();
 const port = 3000;
 
-const staticFilesPath = __dirname; // This is /var/www/landing-page/
+const staticFilesPath = __dirname;
+
+app.use(express.json());
 
 app.use(express.static(staticFilesPath));
 
-// Optionally, if you have specific dynamic routes, define them here.
-// For a simple landing page, express.static might handle everything.
-// Example: If you wanted a specific route for a form submission:
-// app.post('/submit-form', (req, res) => {
-//     // Handle form submission logic
-//     res.send('Form submitted!');
-// });
+app.post('/submit-contact', (req, res) => {
+    const { name, email, message } = req.body;
+
+    console.log('--- New Contact Form Submission ---');
+    console.log(`Name: ${name}`);
+    console.log(`Email: ${email}`);
+    console.log(`Message: ${message}`);
+    console.log('---------------------------------');
+
+    if (name && email && message) {
+        res.status(200).json({ message: 'Message sent successfully!' });
+    } else {
+        res.status(400).json({ message: 'Please fill in all fields.' });
+    }
+});
 
 app.use((req, res) => {
     res.status(404).send('Not Found');
