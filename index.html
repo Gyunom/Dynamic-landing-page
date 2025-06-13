@@ -1,13 +1,28 @@
 <!DOCTYPE html>
-<html lang="en" class="bg-gray-900">
+<html lang="en"> 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>Helio</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="/script.js"></script>
     <link rel="stylesheet" href="styles.css">
     <style>
+        /* CRITICAL: Ensure body has the background image and it covers the screen */
+        body {
+            background-image: url('./assets/canva1.webp'); /* <-- THIS IS YOUR BACKGROUND IMAGE PATH */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Keeps background fixed when scrolling */
+            /* Fallback background color if image fails or is slow to load */
+            background-color: #1a202c; /* Equivalent to Tailwind's gray-900 */
+        }
+        
+        /* Ensure the main page content elements have their dark backgrounds with transparency */
+        .card-transparent {
+            background-color: rgba(31, 41, 55, 0.7); /* Tailwind gray-800 with 70% opacity */
+        }
+
+        /* Standard fade-in animation */
         .fade-in {
             opacity: 0;
             transform: translateY(30px);
@@ -21,7 +36,7 @@
         }
     </style>
 </head>
-<body class="bg-image min-h-screen flex flex-col items-center justify-center px-4">
+<body class="min-h-screen flex flex-col items-center px-4"> <!-- Removed bg-image class from here, applied directly in style tag -->
     <nav class="flex justify-between items-center py-4 px-8">
         <div class="text-2xl font-bold text-white tracking-wider">HELIO</div>
         <ul class="flex gap-6 text-gray-300">
@@ -118,43 +133,64 @@
             <div>
                 <label for="name" class="block text-gray-300 text-sm font-bold mb-2">Name:</label>
                 <input type="text" id="name" name="name" required
-                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-700 border-gray-600 text-white">
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-700 border-gray-600 text-white">
             </div>
             <div>
                 <label for="email" class="block text-gray-300 text-sm font-bold mb-2">Email:</label>
                 <input type="email" id="email" name="email" required
-                       class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-700 border-gray-600 text-white">
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-700 border-gray-600 text-white">
             </div>
             <div>
                 <label for="message" class="block text-gray-300 text-sm font-bold mb-2">Message:</label>
                 <textarea id="message" name="message" rows="5" required
-                          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-700 border-gray-600 text-white"></textarea>
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-700 border-gray-600 text-white"></textarea>
             </div>
             <div class="flex items-center justify-between">
-                <button type="submit"
+                <button type="submit" id="submitButton"
                         class="btn-pink bg-pink-600 text-white font-bold py-2 px-6 rounded-full shadow-lg hover:bg-pink-700 transition duration-300 ease-in-out transform hover:scale-105">
                     Send Message
                 </button>
             </div>
+            <div id="loadingIndicator" class="hidden text-center text-pink-400 mt-4">Sending...</div>
             <div id="formMessage" class="text-center text-sm mt-4"></div>
         </form>
     </section>
 
+    <!-- Image Modal -->
     <div id="imageModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50 hidden">
         <div class="relative max-w-3xl max-h-full">
             <img id="modalImage" src="" alt="Enlarged Project Image" class="max-w-full max-h-full object-contain">
-            <button id="closeModalBtn" class="absolute top-4 right-4 text-white text-3xl font-bold p-2 leading-none hover:text-pink-500 transition">&times;</button>
+            <button id="imageModalCloseBtn" class="absolute top-4 right-4 text-white text-3xl font-bold p-2 leading-none hover:text-pink-500 transition">&times;</button>
         </div>
     </div>
 
-    <button id="backToTopBtn" 
+    <!-- Pop-up Modal Structure - Themed to match dark background & pink accents -->
+    <div id="responseModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden">
+        <div class="bg-gray-800 p-6 rounded-lg shadow-xl max-w-sm w-full mx-auto relative transform transition-all duration-300 scale-95 opacity-0 border border-pink-600">
+            <!-- Close button for the modal -->
+            <button id="closeModalBtn" class="absolute top-3 right-3 text-gray-400 hover:text-pink-500 text-2xl font-bold leading-none">&times;</button>
+            
+            <!-- Modal content area -->
+            <h3 class="text-2xl font-semibold mb-4 text-white">Message Status</h3>
+            <p id="modalMessage" class="text-gray-300 text-lg"></p>
+            
+            <!-- A button to acknowledge or simply dismiss the modal -->
+            <button id="okModalBtn" class="mt-6 w-full bg-pink-600 hover:bg-pink-700 text-white font-semibold py-2 px-4 rounded-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50">
+                OK
+            </button>
+        </div>
+    </div>
+
+    <button id="backToTopBtn"
         class="fixed bottom-8 right-8 bg-pink-600 text-white p-3 rounded-full shadow-lg hover:bg-pink-700 transition duration-300 ease-in-out transform hover:scale-110 opacity-0 invisible z-50"
-        title="Scroll to Top"> <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
-    </svg>
+        title="Scroll to Top">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+        </svg>
     </button>
 
     <script src="/script.js"></script>
 
 </body>
 </html>
+
