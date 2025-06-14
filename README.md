@@ -89,3 +89,8 @@ AWS Security Group inbound rules were updated to allow:
 **Public IP Address:**  
 - The application is hosted at: [http://13.40.198.127/](http://13.40.198.127/)  
 - It is also accessible via the custom domain (with HTTPS redirection): [https://maigida.duckdns.org/](https://maigida.duckdns.org/)
+
+![Screenshot](images/helio-1.jpg)
+![Screenshot](images/Helio-2.jpg)
+![Screenshot](images/Helio-3.jpg)
+
