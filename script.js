@@ -12,65 +12,14 @@ function removeClass(element, className) {
     }
 }
 
-// === Theme Toggle Functionality ===
-const themeToggleBtn = document.getElementById('themeToggle');
-const htmlElement = document.documentElement; // This refers to the <html> tag
-const sunIcon = document.getElementById('sunIcon');
-const moonIcon = document.getElementById('moonIcon');
-
-if (themeToggleBtn && htmlElement && sunIcon && moonIcon) {
-    // Function to apply the chosen theme
-    function applyTheme(theme) {
-        if (theme === 'dark') {
-            addClass(htmlElement, 'dark');
-            removeClass(sunIcon, 'block');
-            addClass(sunIcon, 'hidden');
-            addClass(moonIcon, 'block');
-            removeClass(moonIcon, 'hidden');
-        } else {
-            removeClass(htmlElement, 'dark');
-            addClass(sunIcon, 'block');
-            removeClass(sunIcon, 'hidden');
-            removeClass(moonIcon, 'block');
-            addClass(moonIcon, 'hidden');
-        }
-    }
-
-    // Check for saved theme preference on page load
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-        applyTheme(savedTheme);
-    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        // If no preference saved, check system preference and apply dark mode
-        applyTheme('dark');
-    } else {
-        // Default to light mode if no saved preference and system preference is not dark
-        applyTheme('light');
-    }
-
-    // Add event listener for the toggle button
-    themeToggleBtn.addEventListener('click', () => {
-        if (htmlElement.classList.contains('dark')) {
-            applyTheme('light');
-            localStorage.setItem('theme', 'light');
-        } else {
-            applyTheme('dark');
-            localStorage.setItem('theme', 'dark');
-        }
-    });
-}
-
-
 // === Typewriter Effect for Hero Title ===
 const heroTitleElement = document.getElementById('hero-title');
-// Re-checking heroTitleElement as it might not be available immediately in some contexts
-// This part assumes heroTitleElement is guaranteed to be there when this script runs (end of body)
 const textToType = "The Future of Renewable Energy";
 let charIndex = 0;
 
 function typeWriter() {
     if (charIndex < textToType.length) {
-        if (heroTitleElement) { // Safety check
+        if (heroTitleElement) {
             heroTitleElement.innerHTML += textToType.charAt(charIndex);
         }
         charIndex++;
@@ -79,11 +28,7 @@ function typeWriter() {
 }
 
 // Trigger the typewriter effect when the window loads
-window.onload = function() {
-    typeWriter(); // Call typewriter here
-    // Any other window.onload logic can go here if needed
-};
-
+window.onload = typeWriter;
 
 // === Smooth Scrolling for Navigation Links ===
 document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
@@ -102,18 +47,20 @@ document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
 });
 
 // === "Back to Top" Button Functionality ===
-const backToTopButton = document.getElementById('back-to-top'); // Changed ID from backToTopBtn to back-to-top for consistency
+// FIX: Changed ID to match the one in index.html (backToTopBtn)
+const backToTopButton = document.getElementById('backToTopBtn'); 
 
 if (backToTopButton) {
     // Show/hide button based on scroll position
     window.addEventListener('scroll', () => {
         if (window.scrollY > 300) { // Show button after scrolling 300px
-            removeClass(backToTopButton, 'invisible'); // Use invisible/visible for better transitions with opacity
+            removeClass(backToTopButton, 'invisible'); // Remove 'invisible' to make it appear
             addClass(backToTopButton, 'opacity-100');
+            removeClass(backToTopButton, 'opacity-0'); // Ensure full opacity
         } else {
-            addClass(backToTopButton, 'opacity-0');
+            addClass(backToTopButton, 'opacity-0'); // Fade out
             setTimeout(() => { // Hide completely after fade out
-                addClass(backToTopButton, 'invisible'); // Hide completely after fade out
+                addClass(backToTopButton, 'invisible'); // Make invisible after transition
             }, 300); // Match CSS transition duration
         }
     });
@@ -126,7 +73,6 @@ if (backToTopButton) {
         });
     });
 }
-
 
 // === Interactive Image Modal for Portfolio Section ===
 const projectImages = document.querySelectorAll('.project-image');
@@ -179,10 +125,9 @@ const loadingIndicator = document.getElementById('loadingIndicator');
 // Pop-up modal elements
 const responseModal = document.getElementById('responseModal');
 const modalMessage = document.getElementById('modalMessage');
-const closeModalBtn = document.getElementById('closeModalBtn'); // This is the 'x' button on the modal
-const okModalBtn = document.getElementById('okModalBtn'); // This is the 'OK' button on the modal
+const closeModalBtn = document.getElementById('closeModalBtn');
+const okModalBtn = document.getElementById('okModalBtn');
 
-// Ensure all necessary elements for the contact form and modal are present before adding listeners
 if (contactForm && submitButton && loadingIndicator && responseModal && modalMessage && closeModalBtn && okModalBtn) {
     contactForm.addEventListener('submit', async (e) => {
         e.preventDefault(); // PREVENT DEFAULT FORM SUBMISSION (stops page refresh)
@@ -254,10 +199,6 @@ if (contactForm && submitButton && loadingIndicator && responseModal && modalMes
     });
 
     // Event listeners to close the modal
-    // Note: There are two elements with id 'closeModalBtn' in your HTML.
-    // The script is designed to handle both if they are distinct elements or the first one it finds.
-    // The image modal close button had a conflicting ID, which was corrected in index.html,
-    // so this 'closeModalBtn' should correctly refer to the pop-up modal's close button now.
     closeModalBtn.addEventListener('click', () => {
         addClass(responseModal.querySelector('div'), 'opacity-0');
         addClass(responseModal.querySelector('div'), 'scale-95');

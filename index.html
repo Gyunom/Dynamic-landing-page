@@ -7,22 +7,19 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="styles.css">
     <style>
-        /* CRITICAL: Ensure body has the background image and it covers the screen */
         body {
-            background-image: url('./assets/canva1.webp'); /* <-- THIS IS YOUR BACKGROUND IMAGE PATH */
+            background-image: url('./assets/canva1.webp'); 
             background-size: cover;
             background-position: center;
-            background-attachment: fixed; /* Keeps background fixed when scrolling */
-            /* Fallback background color if image fails or is slow to load */
-            background-color: #1a202c; /* Equivalent to Tailwind's gray-900 */
+            background-attachment: fixed; 
+            background-color: #1a202c; 
         }
         
-        /* Ensure the main page content elements have their dark backgrounds with transparency */
         .card-transparent {
-            background-color: rgba(31, 41, 55, 0.7); /* Tailwind gray-800 with 70% opacity */
+            background-color: rgba(31, 41, 55, 0.7); 
         }
 
-        /* Standard fade-in animation */
+        
         .fade-in {
             opacity: 0;
             transform: translateY(30px);
@@ -36,7 +33,7 @@
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col items-center px-4"> <!-- Removed bg-image class from here, applied directly in style tag -->
+<body class="min-h-screen flex flex-col items-center px-4"> 
     <nav class="flex justify-between items-center py-4 px-8">
         <div class="text-2xl font-bold text-white tracking-wider">HELIO</div>
         <ul class="flex gap-6 text-gray-300">
@@ -164,7 +161,6 @@
         </div>
     </div>
 
-    <!-- Pop-up Modal Structure - Themed to match dark background & pink accents -->
     <div id="responseModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden">
         <div class="bg-gray-800 p-6 rounded-lg shadow-xl max-w-sm w-full mx-auto relative transform transition-all duration-300 scale-95 opacity-0 border border-pink-600">
             <!-- Close button for the modal -->
@@ -193,4 +189,5 @@
 
 </body>
 </html>
+```
 
