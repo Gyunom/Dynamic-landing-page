@@ -93,4 +93,6 @@ AWS Security Group inbound rules were updated to allow:
 ![Screenshot](images/helio-1.jpg)
 ![Screenshot](images/Helio-2.jpg)
 ![Screenshot](images/Helio-3.jpg)
+![Screenshot](images/Helio-4.jpg)
+![Screenshot](images/Helio-5.jpg)
 
