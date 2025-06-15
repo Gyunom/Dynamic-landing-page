@@ -23,7 +23,7 @@ function typeWriter() {
             heroTitleElement.innerHTML += textToType.charAt(charIndex);
         }
         charIndex++;
-        setTimeout(typeWriter, 100); // Adjust typing speed here (milliseconds per character)
+        setTimeout(typeWriter, 100); 
     }
 }
 
@@ -33,35 +33,35 @@ window.onload = typeWriter;
 // === Smooth Scrolling for Navigation Links ===
 document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
-        e.preventDefault(); // Prevent default jump behavior
+        e.preventDefault(); 
 
         const targetId = this.getAttribute('href');
         const targetElement = document.querySelector(targetId);
 
         if (targetElement) {
             targetElement.scrollIntoView({
-                behavior: 'smooth' // Smooth scroll effect
+                behavior: 'smooth' 
             });
         }
     });
 });
 
 // === "Back to Top" Button Functionality ===
-// FIX: Changed ID to match the one in index.html (backToTopBtn)
+
 const backToTopButton = document.getElementById('backToTopBtn'); 
 
 if (backToTopButton) {
     // Show/hide button based on scroll position
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 300) { // Show button after scrolling 300px
-            removeClass(backToTopButton, 'invisible'); // Remove 'invisible' to make it appear
+        if (window.scrollY > 300) { 
+            removeClass(backToTopButton, 'invisible'); 
             addClass(backToTopButton, 'opacity-100');
-            removeClass(backToTopButton, 'opacity-0'); // Ensure full opacity
+            removeClass(backToTopButton, 'opacity-0'); 
         } else {
-            addClass(backToTopButton, 'opacity-0'); // Fade out
-            setTimeout(() => { // Hide completely after fade out
-                addClass(backToTopButton, 'invisible'); // Make invisible after transition
-            }, 300); // Match CSS transition duration
+            addClass(backToTopButton, 'opacity-0'); 
+            setTimeout(() => { 
+                addClass(backToTopButton, 'invisible'); 
+            }, 300); 
         }
     });
 
@@ -83,9 +83,9 @@ const imageModalCloseBtn = document.getElementById('imageModalCloseBtn');
 if (imageModal && modalImage && imageModalCloseBtn) {
     projectImages.forEach(image => {
         image.addEventListener('click', () => {
-            modalImage.src = image.src; // Set modal image source to clicked image
-            removeClass(imageModal, 'hidden'); // Show the modal
-            setTimeout(() => { // Animate in
+            modalImage.src = image.src; 
+            removeClass(imageModal, 'hidden'); 
+            setTimeout(() => { 
                 removeClass(imageModal.querySelector('div'), 'opacity-0');
                 removeClass(imageModal.querySelector('div'), 'scale-95');
                 addClass(imageModal.querySelector('div'), 'opacity-100');
@@ -98,7 +98,7 @@ if (imageModal && modalImage && imageModalCloseBtn) {
     imageModalCloseBtn.addEventListener('click', () => {
         addClass(imageModal.querySelector('div'), 'opacity-0');
         addClass(imageModal.querySelector('div'), 'scale-95');
-        setTimeout(() => { // Hide completely after fade out
+        setTimeout(() => { 
             addClass(imageModal, 'hidden');
         }, 300);
     });
@@ -115,9 +115,9 @@ if (imageModal && modalImage && imageModalCloseBtn) {
     });
 }
 
-// =========================================================================
+
 // === Contact Form Submission and Pop-up Response Handling ===
-// =========================================================================
+
 const contactForm = document.getElementById('contactForm');
 const submitButton = document.getElementById('submitButton');
 const loadingIndicator = document.getElementById('loadingIndicator');
@@ -130,7 +130,7 @@ const okModalBtn = document.getElementById('okModalBtn');
 
 if (contactForm && submitButton && loadingIndicator && responseModal && modalMessage && closeModalBtn && okModalBtn) {
     contactForm.addEventListener('submit', async (e) => {
-        e.preventDefault(); // PREVENT DEFAULT FORM SUBMISSION (stops page refresh)
+        e.preventDefault(); 
 
         // Show loading indicator and disable button
         addClass(loadingIndicator, 'block');
@@ -139,7 +139,7 @@ if (contactForm && submitButton && loadingIndicator && responseModal && modalMes
         submitButton.textContent = 'Sending...';
 
         const formData = new FormData(contactForm);
-        const data = Object.fromEntries(formData.entries()); // Convert form data to a plain object
+        const data = Object.fromEntries(formData.entries()); 
 
         try {
             const response = await fetch('/submit-contact', {
@@ -147,16 +147,16 @@ if (contactForm && submitButton && loadingIndicator && responseModal && modalMes
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(data) // Send data as JSON
+                body: JSON.stringify(data) 
             });
 
-            const result = await response.json(); // Parse the JSON response from the server
+            const result = await response.json(); 
 
             // Display the pop-up message based on server response
             if (result.success) {
-                modalMessage.textContent = result.responseMessage; // Set message from server
-                addClass(responseModal, 'block'); // Show modal as block
-                removeClass(responseModal, 'hidden'); // Remove hidden class
+                modalMessage.textContent = result.responseMessage; 
+                addClass(responseModal, 'block'); 
+                removeClass(responseModal, 'hidden'); 
                 // Animate modal in
                 setTimeout(() => {
                     removeClass(responseModal.querySelector('div'), 'opacity-0');
@@ -194,7 +194,7 @@ if (contactForm && submitButton && loadingIndicator && responseModal && modalMes
             removeClass(loadingIndicator, 'block');
             submitButton.disabled = false;
             submitButton.textContent = 'Send Message';
-            contactForm.reset(); // Optionally clear the form after submission
+            contactForm.reset(); 
         }
     });
 
@@ -204,7 +204,7 @@ if (contactForm && submitButton && loadingIndicator && responseModal && modalMes
         addClass(responseModal.querySelector('div'), 'scale-95');
         setTimeout(() => {
             addClass(responseModal, 'hidden');
-            removeClass(responseModal, 'block'); // Ensure it's fully hidden
+            removeClass(responseModal, 'block'); 
         }, 300);
     });
 
@@ -213,7 +213,7 @@ if (contactForm && submitButton && loadingIndicator && responseModal && modalMes
         addClass(responseModal.querySelector('div'), 'scale-95');
         setTimeout(() => {
             addClass(responseModal, 'hidden');
-            removeClass(responseModal, 'block'); // Ensure it's fully hidden
+            removeClass(responseModal, 'block'); 
         }, 300);
     });
 
@@ -224,7 +224,7 @@ if (contactForm && submitButton && loadingIndicator && responseModal && modalMes
             addClass(responseModal.querySelector('div'), 'scale-95');
             setTimeout(() => {
                 addClass(responseModal, 'hidden');
-                removeClass(responseModal, 'block'); // Ensure it's fully hidden
+                removeClass(responseModal, 'block'); 
             }, 300);
         }
     });
